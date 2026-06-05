@@ -1,0 +1,39 @@
+# Finteca AuditRep — Security Exclusions
+
+# === SECRETS — NEVER COMMIT ===
+.env
+*.env
+.streamlit/secrets.toml
+
+# === DATABASE — STAYS LOCAL ===
+*.db
+*.sqlite
+*.sqlite3
+data/reconciliation.db
+data/*.db
+
+# === VIRTUAL ENVIRONMENT ===
+venv/
+env/
+.venv/
+
+# === PYTHON CACHE ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# === UPLOADS & REPORTS ===
+uploads/
+temp/
+reports/*.pdf
+reports/*.xlsx
+reports/*.csv
+logs/push_history.json
+
+# === OS FILES ===
+.DS_Store
+Thumbs.db
+*.log
+*.swp
