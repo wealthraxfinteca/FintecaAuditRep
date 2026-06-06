@@ -98,7 +98,10 @@ with st.expander("🔧 System Status", expanded=False):
     c4.metric("OCR Support",   "✅ Ready" if OCR_OK   else "❌ Install pytesseract")
     c5.metric("AI Support",    "✅ Ready" if OPENAI_OK else "❌ Install openai")
 
-DB_PATH    = "data/reconciliation.db"
+# Cloud + Local compatible
+DB_PATH = "/tmp/reconciliation.db" if os.path.exists("/mount/src") else "data/reconciliation.db"
+if not os.path.exists("/mount/src"):
+    Path("data").mkdir(exist_ok=True)
 API_KEY    = os.getenv("OPENAI_API_KEY", "")
 TABLE_LIST = [
     "purchases", "sales", "banking", "collections",

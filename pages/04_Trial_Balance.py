@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import sqlite3
 import os
+from pathlib import Path
 from datetime import datetime, date, timedelta
 from dotenv import load_dotenv
 load_dotenv()
@@ -69,7 +70,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-DB_PATH = "data/reconciliation.db"
+DB_PATH = "/tmp/reconciliation.db" if os.path.exists("/mount/src") else "data/reconciliation.db"
 
 # ── Database helpers ──────────────────────────────────────
 def load(table):

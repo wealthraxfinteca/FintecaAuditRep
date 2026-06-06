@@ -4,6 +4,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import sqlite3
 import os
+from pathlib import Path
 import json
 from datetime import datetime
 from dotenv import load_dotenv
@@ -43,7 +44,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-DB_PATH = "data/reconciliation.db"
+DB_PATH = "/tmp/reconciliation.db" if os.path.exists("/mount/src") else "data/reconciliation.db"
 API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 def load(t):

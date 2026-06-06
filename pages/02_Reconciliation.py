@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -53,7 +55,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-DB_PATH = "data/reconciliation.db"
+DB_PATH = "/tmp/reconciliation.db" if os.path.exists("/mount/src") else "data/reconciliation.db"
 
 def load(table):
     try:
