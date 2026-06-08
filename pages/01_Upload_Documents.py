@@ -4,6 +4,7 @@ import json
 import re
 import io
 import os
+from pathlib import Path
 import sqlite3
 from datetime import datetime
 from dotenv import load_dotenv
