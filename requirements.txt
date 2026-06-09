@@ -1,31 +1,12 @@
-# Finteca AuditRep — Dependencies
-# Compatible: Python 3.11+ / 3.12+
-
-# Core Framework
-streamlit>=1.31.0
-
-# AI
-openai>=1.12.0
-
-# Data Processing
+streamlit>=1.35.0
+openai>=1.0.0
 pandas>=2.0.0
-numpy>=1.24.0
-plotly>=5.18.0
-
-# Document Processing
-pdfplumber>=0.10.0
-python-docx>=1.1.0
 openpyxl>=3.1.0
-pillow>=10.0.0
-pytesseract>=0.3.10
 xlsxwriter>=3.1.0
-
-# Visualisation
-matplotlib>=3.8.0
-
-# Machine Learning
-scikit-learn>=1.4.0
-
-# Utilities
+plotly>=5.0.0
 python-dotenv>=1.0.0
-reportlab>=4.0.0
+pillow>=10.0.0
+pdfplumber>=0.10.0
+pytesseract>=0.3.10
+numpy>=1.24.0
+requests>=2.31.0
