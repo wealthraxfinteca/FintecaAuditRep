@@ -37,3 +37,12 @@ logs/push_history.json
 Thumbs.db
 *.log
 *.swp
+
+# Database files - never commit
+*.db
+*.db-shm
+*.db-wal
+data/*.db
+/tmp/*.db
+finteca.db
+reconciliation.db
