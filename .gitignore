@@ -37,3 +37,5 @@ logs/push_history.json
 Thumbs.db
 *.log
 *.swp
+assignments/
+assignments_index.json
