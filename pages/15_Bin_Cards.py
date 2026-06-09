@@ -104,19 +104,19 @@ with ctrl1:
     date_from = st.date_input(
         "📅 Period From:",
         value=date(2025, 5, 1),
-        key="bc_date_from"
+        key="bc_widget_date_from"
     )
 with ctrl2:
     date_to = st.date_input(
         "📅 Period To:",
         value=date(2026, 5, 31),
-        key="bc_date_to"
+        key="bc_widget_date_to"
     )
 with ctrl3:
     sku_filter = st.text_input(
         "🔍 Filter by SKU / Item Code:",
         placeholder="Leave blank for all",
-        key="bc_sku_filter"
+        key="bc_widget_sku_filter"
     )
 with ctrl4:
     st.markdown("<br>", unsafe_allow_html=True)
@@ -128,8 +128,7 @@ with ctrl4:
     )
 
 # ── Compute ──────────────────────────────────────────────────
-if run_btn or st.session_state.get("bc_computed"):
-
+if run_btn:
     if date_from > date_to:
         st.error("❌ Period From must be before Period To.")
         st.stop()
@@ -142,16 +141,20 @@ if run_btn or st.session_state.get("bc_computed"):
                 date_to    = date_to,
                 sku_filter = sku_filter.strip() if sku_filter else None,
             )
-            st.session_state["bc_computed"]  = True
-            st.session_state["bc_df"]        = df_bins
-            st.session_state["bc_date_from"] = date_from
-            st.session_state["bc_date_to"]   = date_to
+            # Store results with different keys from widgets
+            st.session_state["bc_computed"]       = True
+            st.session_state["bc_df"]             = df_bins
+            st.session_state["bc_stored_from"]    = date_from
+            st.session_state["bc_stored_to"]      = date_to
         except Exception as e:
             st.error(f"❌ Computation error: {e}")
             st.exception(e)
             st.stop()
 
-    df_bins = st.session_state.get("bc_df", pd.DataFrame())
+if st.session_state.get("bc_computed"):
+    df_bins   = st.session_state.get("bc_df", pd.DataFrame())
+    date_from = st.session_state.get("bc_stored_from", date_from)
+    date_to   = st.session_state.get("bc_stored_to",   date_to)
 
     if df_bins.empty:
         st.warning(
@@ -462,11 +465,13 @@ if run_btn or st.session_state.get("bc_computed"):
 
                 # Load daily movements
                 with st.spinner(f"Loading movements for {sel_sku}..."):
+                    _d_from = st.session_state.get("bc_stored_from", date_from)
+                    _d_to   = st.session_state.get("bc_stored_to",   date_to)
                     df_mov = compute_daily_movements(
                         db_path   = DB,
                         sku       = sel_sku,
-                        date_from = date_from,
-                        date_to   = date_to,
+                        date_from = _d_from,
+                        date_to   = _d_to,
                     )
 
                 if df_mov.empty:
@@ -568,11 +573,13 @@ if run_btn or st.session_state.get("bc_computed"):
 
             if st.button("Generate Movement Report",
                          key="bc_gen_mov"):
+                _d_from = st.session_state.get("bc_stored_from", date_from)
+                _d_to   = st.session_state.get("bc_stored_to",   date_to)
                 df_exp = compute_daily_movements(
                     db_path   = DB,
                     sku       = sel_export_sku,
-                    date_from = date_from,
-                    date_to   = date_to,
+                    date_from = _d_from,
+                    date_to   = _d_to,
                 )
                 if not df_exp.empty:
                     csv_exp = df_exp.to_csv(index=False).encode("utf-8")
