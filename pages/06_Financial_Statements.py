@@ -15,7 +15,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DB_PATH = "/tmp/reconciliation.db" if os.path.exists("/mount/src") else "data/reconciliation.db"
+DB_PATH = (st.session_state.get("active_db_path") or
+    ("/tmp/reconciliation.db" if os.path.exists("/mount/src")
+     else "data/reconciliation.db"))
 if not os.path.exists("/mount/src"):
     Path("data").mkdir(exist_ok=True)
 

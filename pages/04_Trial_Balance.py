@@ -70,7 +70,9 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-DB_PATH = "/tmp/reconciliation.db" if os.path.exists("/mount/src") else "data/reconciliation.db"
+DB_PATH = (st.session_state.get("active_db_path") or
+    ("/tmp/reconciliation.db" if os.path.exists("/mount/src")
+     else "data/reconciliation.db"))
 
 # ── Database helpers ──────────────────────────────────────
 def load(table):

@@ -100,7 +100,11 @@ with st.expander("🔧 System Status", expanded=False):
     c5.metric("AI Support",    "✅ Ready" if OPENAI_OK else "❌ Install openai")
 
 # Cloud + Local compatible
-DB_PATH = "/tmp/reconciliation.db" if os.path.exists("/mount/src") else "data/reconciliation.db"
+DB_PATH = (st.session_state.get("active_db_path") or
+    ("/tmp/reconciliation.db" if os.path.exists("/mount/src")
+     else "data/reconciliation.db"))
+if not os.path.exists("/mount/src") and not st.session_state.get("active_db_path"):
+    Path("data").mkdir(exist_ok=True)
 if not os.path.exists("/mount/src"):
     Path("data").mkdir(exist_ok=True)
 API_KEY    = os.getenv("OPENAI_API_KEY", "")

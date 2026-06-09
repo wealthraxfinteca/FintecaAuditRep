@@ -62,15 +62,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── Get active assignment DB ──────────────────────────────
-def get_db():
-    if st.session_state.get("active_db_path"):
-        return st.session_state.active_db_path
-    if os.path.exists("/mount/src"):
-        return "/tmp/reconciliation.db"
-    Path("data").mkdir(exist_ok=True)
-    return "data/reconciliation.db"
-
-DB_PATH = get_db()
+DB_PATH = (st.session_state.get("active_db_path") or
+    ("/tmp/reconciliation.db" if os.path.exists("/mount/src")
+     else "data/reconciliation.db"))
 
 def get_conn():
     return sqlite3.connect(DB_PATH, check_same_thread=False)
