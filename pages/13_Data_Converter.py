@@ -245,8 +245,16 @@ with tabs[1]:
             "notes": [""],
         })
 
+    # Fix: convert date column from string to date type
+    _mc_df = st.session_state.manual_collections.copy()
+    if "date" in _mc_df.columns:
+        import pandas as _pd_fix
+        _mc_df["date"] = _pd_fix.to_datetime(
+            _mc_df["date"], errors="coerce"
+        ).dt.date
+
     edited_manual = st.data_editor(
-        st.session_state.manual_collections,
+        _mc_df,
         use_container_width=True,
         num_rows="dynamic",
         column_config={
