@@ -128,10 +128,10 @@ with tabs[0]:
         purch["tax"]        = to_num(purch.get("tax",         pd.Series(dtype=float)))
 
         # Fix: compare as full datetime to avoid dtype mismatch
-    _start = pd.Timestamp(start_date)
-    _end   = pd.Timestamp(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
-    purch["date"] = pd.to_datetime(purch["date"], errors="coerce")
-    mask = (purch["date"] >= _start) & (purch["date"] <= _end)
+        _start = pd.Timestamp(start_date)
+        _end   = pd.Timestamp(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+        purch["date"] = pd.to_datetime(purch["date"], errors="coerce")
+        mask = (purch["date"] >= _start) & (purch["date"] <= _end)
         p = purch[mask].copy()
 
         # Purchase returns in period

@@ -1,17 +1,17 @@
 {
-  "slot___auchi_reconci_20260608_195520": {
-    "id": "slot___auchi_reconci_20260608_195520",
-    "name": "SLOT - AUCHI Reconciliation 2025",
+  "dhub_reconciliation__20260609_125250": {
+    "id": "dhub_reconciliation__20260609_125250",
+    "name": "DHUB Reconciliation 2025",
     "client": "Device Hub Limited",
-    "description": "Reconciliation of transactions carried out from May 2025 to June 2026",
-    "type": "Reconciliation",
+    "description": "Reconciliation of inventory and cash collections for the period 01 May 2026 - 31 May 2026",
+    "type": "Annual Audit",
     "period_from": "2025-05-01",
     "period_to": "2026-05-31",
     "created_by": "Hyginus Oshioke, MBA, MSc, FCA",
-    "created_at": "2026-06-08T19:55:20.848246",
-    "updated_at": "2026-06-08T19:55:20.848261",
+    "created_at": "2026-06-09T12:52:52.047293",
+    "updated_at": "2026-06-09T12:52:52.047336",
     "status": "active",
-    "path": "assignments/slot___auchi_reconci_20260608_195520",
-    "db_path": "assignments/slot___auchi_reconci_20260608_195520/reconciliation.db"
+    "path": "assignments/dhub_reconciliation__20260609_125250",
+    "db_path": "assignments/dhub_reconciliation__20260609_125250/reconciliation.db"
   }
 }
