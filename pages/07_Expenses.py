@@ -291,8 +291,8 @@ with tabs[1]:
 
         # Filter by date
         mask = (
-            (exp_df["date"].dt.date >= start_date) &
-            (exp_df["date"].dt.date <= end_date)
+            (pd.to_datetime(exp_df["date"], errors="coerce") >= pd.Timestamp(start_date)) &
+            (pd.to_datetime(exp_df["date"], errors="coerce") <= pd.Timestamp(end_date))
         )
         filtered = exp_df[mask].copy()
 
@@ -382,8 +382,8 @@ with tabs[2]:
         exp_df2["total_amount"] = to_num(exp_df2["total_amount"])
 
         mask2 = (
-            (exp_df2["date"].dt.date >= start_date) &
-            (exp_df2["date"].dt.date <= end_date)
+            (pd.to_datetime(exp_df2["date"], errors="coerce") >= pd.Timestamp(start_date)) &
+            (pd.to_datetime(exp_df2["date"], errors="coerce") <= pd.Timestamp(end_date))
         )
         filtered2 = exp_df2[mask2].copy()
 
@@ -431,8 +431,8 @@ with tabs[3]:
         exp_df3["total_amount"] = to_num(exp_df3["total_amount"])
 
         mask3 = (
-            (exp_df3["date"].dt.date >= start_date) &
-            (exp_df3["date"].dt.date <= end_date)
+            (pd.to_datetime(exp_df3["date"], errors="coerce") >= pd.Timestamp(start_date)) &
+            (pd.to_datetime(exp_df3["date"], errors="coerce") <= pd.Timestamp(end_date))
         )
         f3 = exp_df3[mask3].copy()
 

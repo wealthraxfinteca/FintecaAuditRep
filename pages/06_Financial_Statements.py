@@ -115,7 +115,7 @@ def filter_dates(df, start, end, col="date"):
     df = df.copy()
     df[col] = pd.to_datetime(df[col], errors="coerce")
     return df[
-        (df[col].dt.date >= start) & (df[col].dt.date <= end)
+        (pd.to_datetime(df[col], errors="coerce") >= pd.Timestamp(start)) & (pd.to_datetime(df[col], errors="coerce") <= pd.Timestamp(end))
     ].reset_index(drop=True)
 
 def fmt(val, prefix=""):

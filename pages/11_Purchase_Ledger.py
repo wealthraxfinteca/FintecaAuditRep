@@ -127,7 +127,11 @@ with tabs[0]:
         purch["discount"]   = to_num(purch.get("discount",   pd.Series(dtype=float)))
         purch["tax"]        = to_num(purch.get("tax",         pd.Series(dtype=float)))
 
-        mask = (purch["date"].dt.date >= start_date) & (purch["date"].dt.date <= end_date)
+        # Fix: compare as full datetime to avoid dtype mismatch
+    _start = pd.Timestamp(start_date)
+    _end   = pd.Timestamp(end_date) + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
+    purch["date"] = pd.to_datetime(purch["date"], errors="coerce")
+    mask = (purch["date"] >= _start) & (purch["date"] <= _end)
         p = purch[mask].copy()
 
         # Purchase returns in period
@@ -135,7 +139,7 @@ with tabs[0]:
         if not pr.empty and "return_amount" in pr.columns:
             pr["date"] = pd.to_datetime(pr["date"], errors="coerce")
             pr["return_amount"] = to_num(pr["return_amount"])
-            pr_mask = (pr["date"].dt.date >= start_date) & (pr["date"].dt.date <= end_date)
+            pr_mask = (pd.to_datetime(pr["date"], errors="coerce") >= pd.Timestamp(start_date)) & (pd.to_datetime(pr["date"], errors="coerce") <= pd.Timestamp(end_date))
             pr_period = pr[pr_mask]
             pr_total = pr_period["return_amount"].sum()
 
@@ -301,7 +305,7 @@ with tabs[1]:
                         if show_all:
                             ip = ip
                         else:
-                            ip = ip[(ip["date"].dt.date >= start_date) & (ip["date"].dt.date <= end_date)]
+                            ip = ip[(pd.to_datetime(ip["date"], errors="coerce") >= pd.Timestamp(start_date)) & (pd.to_datetime(ip["date"], errors="coerce") <= pd.Timestamp(end_date))]
                         for _, r in ip.iterrows():
                             qty = float(to_num(pd.Series([r.get("quantity",0)])).iloc[0])
                             uc  = float(to_num(pd.Series([r.get("unit_cost",cost)])).iloc[0]) or cost
@@ -341,7 +345,7 @@ with tabs[1]:
                         mask = sales2[col].astype(str).str.lower() == selected.lower()
                         isl = sales2[mask]
                         if not show_all:
-                            isl = isl[(isl["date"].dt.date >= start_date) & (isl["date"].dt.date <= end_date)]
+                            isl = isl[(pd.to_datetime(isl["date"], errors="coerce") >= pd.Timestamp(start_date)) & (pd.to_datetime(isl["date"], errors="coerce") <= pd.Timestamp(end_date))]
                         for _, r in isl.iterrows():
                             qty = float(to_num(pd.Series([r.get("quantity",0)])).iloc[0])
                             entries.append({
@@ -501,7 +505,7 @@ with tabs[2]:
             pr3["return_amount"] = to_num(pr3.get("return_amount", pd.Series(dtype=float)))
             pr3["credit_amount"] = to_num(pr3.get("credit_amount", pd.Series(dtype=float)))
 
-            pr_mask = (pr3["date"].dt.date >= start_date) & (pr3["date"].dt.date <= end_date)
+            pr_mask = (pd.to_datetime(pr3["date"], errors="coerce") >= pd.Timestamp(start_date)) & (pd.to_datetime(pr3["date"], errors="coerce") <= pd.Timestamp(end_date))
             prp = pr3[pr_mask]
 
             if not prp.empty:
@@ -565,7 +569,7 @@ with tabs[3]:
         p4["total_cost"] = to_num(p4.get("total_cost", pd.Series(dtype=float)))
         p4["quantity"]   = to_num(p4.get("quantity",   pd.Series(dtype=float)))
 
-        mask4 = (p4["date"].dt.date >= start_date) & (p4["date"].dt.date <= end_date)
+        mask4 = (pd.to_datetime(p4["date"], errors="coerce") >= pd.Timestamp(start_date)) & (pd.to_datetime(p4["date"], errors="coerce") <= pd.Timestamp(end_date))
         pf = p4[mask4]
 
         col_a, col_b = st.columns(2)
@@ -690,7 +694,7 @@ with tabs[5]:
                 mask = df[desc_col].astype(str).str.lower()==desc.lower()
                 subset = df[mask]
                 if date_filter:
-                    subset = subset[(subset["date"].dt.date>=start_date)&(subset["date"].dt.date<=end_date)]
+                    subset = subset[(pd.to_datetime(subset["date"], errors="coerce") >= pd.Timestamp(start_date))&(pd.to_datetime(subset["date"], errors="coerce") <= pd.Timestamp(end_date))]
                 return float(to_num(subset.get(qty_col,pd.Series(dtype=float))).sum())
 
             purch_qty = get_qty(p6, "item_description", "quantity")

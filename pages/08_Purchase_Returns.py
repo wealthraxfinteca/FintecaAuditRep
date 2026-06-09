@@ -278,8 +278,8 @@ with tabs[1]:
         pr_df["credit_amount"] = to_num(pr_df["credit_amount"])
 
         mask = (
-            (pr_df["date"].dt.date >= start_date) &
-            (pr_df["date"].dt.date <= end_date)
+            (pd.to_datetime(pr_df["date"], errors="coerce") >= pd.Timestamp(start_date)) &
+            (pd.to_datetime(pr_df["date"], errors="coerce") <= pd.Timestamp(end_date))
         )
         f = pr_df[mask].copy()
 
@@ -345,8 +345,8 @@ with tabs[2]:
         )
         pr_df2["return_amount"] = to_num(pr_df2["return_amount"])
         mask2 = (
-            (pr_df2["date"].dt.date >= start_date) &
-            (pr_df2["date"].dt.date <= end_date)
+            (pd.to_datetime(pr_df2["date"], errors="coerce") >= pd.Timestamp(start_date)) &
+            (pd.to_datetime(pr_df2["date"], errors="coerce") <= pd.Timestamp(end_date))
         )
         f2 = pr_df2[mask2].copy()
         st.dataframe(

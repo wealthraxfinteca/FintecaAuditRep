@@ -96,7 +96,7 @@ def filter_by_date(df, start, end, col="date"):
     if df.empty or col not in df.columns:
         return df
     df = parse_dates(df, col)
-    mask = (df[col].dt.date >= start) & (df[col].dt.date <= end)
+    mask = (pd.to_datetime(df[col], errors="coerce") >= pd.Timestamp(start)) & (pd.to_datetime(df[col], errors="coerce") <= pd.Timestamp(end))
     return df[mask].copy()
 
 # ── Date Range Selector ───────────────────────────────────
