@@ -61,7 +61,9 @@ def ensure_tables():
     CREATE TABLE IF NOT EXISTS purchases (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date TEXT, supplier_name TEXT, invoice_no TEXT,
-        description TEXT, amount REAL, vat_amount REAL,
+        item_code TEXT, description TEXT,
+        quantity REAL, rate REAL,
+        amount REAL, vat_amount REAL,
         total_amount REAL, payment_method TEXT,
         status TEXT DEFAULT 'unpaid',
         notes TEXT, assignment_id INTEGER,
@@ -180,13 +182,16 @@ TEMPLATES = [
 # ── Column mappings for smart upload ────────────────────────
 COL_MAP = {
     "purchases": {
-        "date":["date","invoice date","inv date","doc date"],
-        "supplier_name":["supplier","supplier name","vendor","vendor name","party"],
-        "invoice_no":["invoice no","invoice number","inv no","inv #","ref"],
-        "description":["description","desc","item","particulars","narration"],
-        "amount":["amount","net amount","subtotal","sub total","net"],
+        "date":["date","invoice date","inv date","doc date","txn date"],
+        "supplier_name":["supplier","supplier name","vendor","vendor name","party","creditor"],
+        "invoice_no":["invoice no","invoice number","inv no","inv #","ref","reference"],
+        "item_code":["item code","sku","item code (sku)","code","product code","part no","part number"],
+        "description":["description","desc","item","particulars","narration","details","product"],
+        "quantity":["quantity","qty","units","no of units","pcs","pieces"],
+        "rate":["rate","unit price","price","unit cost","cost per unit","rate per unit"],
+        "amount":["amount","net amount","subtotal","sub total","net","line total"],
         "vat_amount":["vat","vat amount","tax","tax amount"],
-        "total_amount":["total","total amount","gross","gross amount","grand total"],
+        "total_amount":["total","total amount","gross","gross amount","grand total","invoice total"],
         "payment_method":["payment method","method","mode","payment mode"],
         "status":["status","payment status"],
         "notes":["notes","remarks","comment","comments"],
